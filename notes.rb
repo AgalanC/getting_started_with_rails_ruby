@@ -97,6 +97,6 @@ Once, I entered the command I did not see "#<ActiveRecord::Relation" on the outp
 
 
 
-
+Not sure if I commited correctly. A bit confused about the blog directory commit.
 
 =end
