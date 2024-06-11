@@ -1,0 +1,24 @@
+<%#
+
+The code below is a mixture of HTML and ERB. ERB is a templating system that evaluates Ruby code embedded in a document. Here, we can see two types of ERB tags: one type starts with "<%" and the other with "<%=".
+
+The tag that starts with "<%" means "evaluate the enclosed Ruby code." The tag that starts with "<%=" means "evaluate the enclosed Ruby code, and output the value it returns." Anything you could write in a regular Ruby program can go inside these ERB tags, though it's usually best to keep the contents of ERB tags short, for readability.
+
+Since we DON'T want to output the value returned by @articles.each, we've enclosed that code with tags that start with "<%". But, since we DO want to output the value returned by article.title (for each article), we've enclosed that code with tags that start with "<%=".
+
+%>
+<h1>Articles</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%# Linking each article's to its page %>
+      <%= link_to article.title, article %>
+    </li>
+  <% end %>
+</ul>
+
+<%# linking to page "http://localhost:3000/articles/new", which enables the creation of an article. %>
+<%= link_to "New Article", new_article_path %>
+
+<p>Find me in app/views/articles/index.html.erb</p>

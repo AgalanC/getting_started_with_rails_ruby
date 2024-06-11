@@ -1,0 +1,28 @@
+<%# 
+
+This is considered a "shared" view called "partial".
+
+This code is the same as our form in "app/views/articles/new.html.erb", except that all occurrences of "@article" have been replaced with "article". Because "partials" are shared code, it is best practice that they do not depend on specific instance variables, "@article", set by a controller action. Instead, we will pass the article to the "partial" as a local variable, "article".
+
+%>
+<%= form_with model: article do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <% article.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %><br>
+    <% article.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

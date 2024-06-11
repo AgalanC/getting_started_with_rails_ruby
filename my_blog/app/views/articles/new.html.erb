@@ -1,0 +1,80 @@
+<%# 
+
+With the Rails feature called "form builder" we can create forms. Using a "form builder", allows to write a minimal amount of code to output a form that is fully configured and follows Rails conventions.
+
+The "form_with" helper method instantiates a "form builder". In the "form_with" block we call methods like "label" and "text_field" on the "form builder" to output the appropriate form elements.
+
+This will be the output of the "form_with" call:
+<form action="/articles" accept-charset="UTF-8" method="post">
+  <input type="hidden" name="authenticity_token" value="...">
+
+  <div>
+    <label for="article_title">Title</label><br>
+    <input type="text" name="article[title]" id="article_title">
+  </div>
+
+  <div>
+    <label for="article_body">Body</label><br>
+    <textarea name="article[body]" id="article_body"></textarea>
+  </div>
+
+  <div>
+    <input type="submit" name="commit" value="Create Article" data-disable-with="Create Article">
+  </div>
+</form>
+
+%>
+<%# 
+ 
+In this version, I am adding the lines underneath "form.text_field" and "form.text_area", which display any error messages for "title" and "body".
+
+The "full_messages_for" method returns an array of user-friendly error messages for a specified attribute. If there are no errors for that attribute, the array will be empty.
+
+To understand how all of this works together, let's take another look at the "new" and "create" controller actions in "app/controllers/articles_controller.rb":
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+When visiting "http://localhost:3000/articles/new", the "GET /articles/new" request is mapped to the "new" action. The "new" action does NOT attempt to save "@article". Therefore, "validations" are NOT checked, and there will be no error messages.
+
+When submitting the form, the "POST /articles" request is mapped to the "create" action. The "create" action does attempt to save "@article". Therefore, "validations" are checked. If any "validation" fails, "@article" will NOT be saved, and "app/views/articles/new.html.erb" will be rendered with error messages.
+
+%>
+<h1>New Article</h1>
+
+<%# Using the "partial" from "app/views/articles/_form.html.erb" via "render" %>
+<%# A "partial's" filename must be prefixed WITH an underscore, e.g. "_form.html.erb". But when rendering, it is referenced WITHOUT the underscore, e.g. 'render "form"'. %>
+<%= render "form", article: @article %>
+
+<%= form_with model: @article do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <% @article.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %><br>
+    <% @article.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+

@@ -1,0 +1,20 @@
+<%# 
+
+The code below the "data" option is used to set the "data-turbo-method" and "data-turbo-confirm" HTML attributes of the "Destroy" link. Both of these attributes hook into "Turbo", which is included by default in "fresh" Rails applications.
+
+The 'data-turbo-method="delete"' will cause the link to make a "DELETE" request instead of a "GET" request. The 'data-turbo-confirm="Are you sure?"' will cause a "confirmation dialog" to appear when the link is clicked. If the user cancels the "dialog", the request will be aborted.
+
+%>
+<h1><%= @article.title %></h1>
+
+<p><%= @article.body %></p>
+
+<ul>
+    <%# Linking to the "edit" page = "http://localhost:3000/articles/1/edit" %>
+    <li><%= link_to "Edit", edit_article_path(@article) %></li>
+    <%# Linking the "destroy" action so that we can delete an article from its own page %>
+    <li><%= link_to "Destroy", article_path(@article), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
