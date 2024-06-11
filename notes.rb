@@ -175,19 +175,10 @@ Our "edit" form will look the same as our "new" form. Even the code will be the 
 
 *** NOTE: Questions and comments for Diogo ***
 
-6.3 - irb> Article.all
-=> #<ActiveRecord::Relation [#<Article id: 1, title: "Hello Rails", body: "I am on Rails!", created_at: "2020-01-18 23:47:30", updated_at: "2020-01-18 23:47:30">]>
-
-Once, I entered the command I did not see "#<ActiveRecord::Relation" on the output.
 
 
-
-Not sure if I commited correctly. A bit confused about the blog directory commit.
-
-
-
-7.4.1 - I'm not sure if I am doing it correctly.
-Is it:
+7.4.1:
+Code in the "new.html.erb" file before this step:
 <h1>New Article</h1>
 
 <%# Using the "partial" from "app/views/articles/_form.html.erb" via "render" %>
@@ -215,7 +206,7 @@ Is it:
   </div>
 <% end %>
 
-Or:
+Code in the "new.html.erb" file after this step:
 <h1>New Article</h1>
 
 # Using the "partial" from "app/views/articles/_form.html.erb" via "render"
